@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Dialog Kinerja</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .dialog {
+      margin-bottom: 20px;
+    }
+    .choices button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    .choices button:hover {
+      background-color: #0056b3;
+    }
+    #score {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="dialog" id="dialog">Manajer: Apa yang akan kamu lakukan jika rekan tim tidak menyelesaikan tugasnya tepat waktu?</div>
+    <div class="choices" id="choices">
+      <button onclick="choose(0)">Saya akan membantunya menyelesaikan tugas</button>
+      <button onclick="choose(1)">Saya akan melaporkannya langsung ke atasan</button>
+      <button onclick="choose(2)">Saya biarkan saja, bukan tanggung jawab saya</button>
+    </div>
+    <div id="score">Skor Kinerja: 0</div>
+  </div>
+
+  <script>
+    const dialogs = [
+      {
+        question: "Manajer: Apa yang akan kamu lakukan jika rekan tim tidak menyelesaikan tugasnya tepat waktu?",
+        choices: [
+          { text: "Saya akan membantunya menyelesaikan tugas", score: 10 },
+          { text: "Saya akan melaporkannya langsung ke atasan", score: 5 },
+          { text: "Saya biarkan saja, bukan tanggung jawab saya", score: -5 }
+        ]
+      },
+      {
+        question: "Manajer: Bagaimana kamu menangani tekanan deadline proyek?",
+        choices: [
+          { text: "Saya menyusun prioritas dan tetap tenang", score: 10 },
+          { text: "Saya bekerja lembur terus tanpa rencana", score: 5 },
+          { text: "Saya menyerah dan pasrah", score: -5 }
+        ]
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function choose(index) {
+      score += dialogs[current].choices[index].score;
+      current++;
+      if (current < dialogs.length) {
+        document.getElementById("dialog").textContent = dialogs[current].question;
+        const buttons = document.querySelectorAll(".choices button");
+        dialogs[current].choices.forEach((choice, i) => {
+          buttons[i].textContent = choice.text;
+        });
+      } else {
+        document.getElementById("dialog").textContent = "Game selesai! Terima kasih telah berpartisipasi.";
+        document.getElementById("choices").innerHTML = "";
+      }
+      document.getElementById("score").textContent = "Skor Kinerja: " + score;
+    }
+  </script>
+</body>
+</html>
